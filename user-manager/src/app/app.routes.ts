@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { LoginComponent } from './pages/login/login.component';
+import { noAuthGuard } from './auth/no-auth-guard';
 
 export const routes: Routes = [
   {
@@ -10,6 +11,8 @@ export const routes: Routes = [
   {
     path: 'login',
     component: LoginComponent,
+    canActivate: [noAuthGuard], // Aquí protege tanto a login como a sus rutas hijas,
+    // quien está logueado no podrá acceder a ninguna de ellas
     children: [
       {
         path: 'register',
