@@ -4,17 +4,19 @@ import { FormGroup, FormBuilder, Validators, ReactiveFormsModule } from '@angula
 @Component({
   selector: 'register',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule], // Importacion de ReactiveFormsModule para usar formularios reactivos
   templateUrl: './register.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RegisterComponent {
-  registerForm: FormGroup; // Formulario reactivo para el registro.
+  registerForm: FormGroup; // Declaración de la variable del formulario
 
+  // Inyección de FormBuilder para facilitar la creación del formulario
   constructor(private fb: FormBuilder) {
     this.registerForm = this.fb.group(
       {
         // Campos del formulario con sus validaciones
+        // Cada campo es un array donde el primer elemento es el valor inicial y el segundo son los validadores
         name: ['', [Validators.required, Validators.minLength(2)]], // Nombre es obligatorio y debe tener al menos 2 caracteres
         email: ['', [Validators.required, Validators.email]], // Email es obligatorio y debe ser un email válido
         password: ['', [Validators.required, Validators.minLength(6)]], // Contraseña es obligatoria y debe tener al menos 6 caracteres
