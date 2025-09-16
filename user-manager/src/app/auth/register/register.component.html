@@ -50,10 +50,19 @@
     <mat-form-field  class="full-width">
       <mat-label> Contraseña </mat-label>
 
-      <input matInput type="password" formControlName="password" passwordStrength (strengthChange)="onStrengthChange($event)" />
-      <!--
+      <input matInput
+        [type]="showPassword ? 'text' : 'password'"
+        formControlName="password"
+        passwordStrength
+        (strengthChange)="onStrengthChange($event)"
+      />
+      <button mat-icon-button matSuffix type="button" (click)="togglePasswordVisibility()" [attr.aria-label]="showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'">
+        <mat-icon>{{ showPassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+      </button>
+      <!-- Verificaciones de contraseña:
         - required: campo obligatorio
         - minlength: mínimo 6 caracteres
+        - [class.] son clases condicionales
       -->
       @if (registerForm.get('password')?.errors?.['required'] &&
       registerForm.get('password')?.touched) {
@@ -75,7 +84,13 @@
     <mat-form-field class="full-width">
       <mat-label>Confirmar Contraseña</mat-label>
 
-      <input matInput type="password" formControlName="confirmPassword" />
+      <input matInput
+        [type]="showConfirmPassword ? 'text' : 'password'"
+        formControlName="confirmPassword"
+      />
+      <button mat-icon-button matSuffix type="button" (click)="toggleConfirmPasswordVisibility()" [attr.aria-label]="showConfirmPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'">
+        <mat-icon>{{ showConfirmPassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+      </button>
       <!-- mismatch es para verificar que las contraseñas coincidan
         registerForm.errors accede a los errores a nivel de formulario completo
         El operador ?. (encadenamiento opcional) se usa para acceder de forma segura a la propiedad 'mismatch'

@@ -5,6 +5,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { PasswordStrengthDirective } from './password-strength.directive';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'register',
@@ -15,7 +16,8 @@ import { PasswordStrengthDirective } from './password-strength.directive';
     MatInputModule,
     MatButtonModule,
     MatSnackBarModule,
-    PasswordStrengthDirective
+    PasswordStrengthDirective,
+    MatIconModule
   ], // Importacion de ReactiveFormsModule y Angular Material
   templateUrl: './register.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -23,6 +25,8 @@ import { PasswordStrengthDirective } from './password-strength.directive';
 export class RegisterComponent {
   registerForm: FormGroup; // Declaración de la variable del formulario
   passwordStrength: 'Débil' | 'Media' | 'Fuerte' = 'Débil';
+  showPassword = false;
+  showConfirmPassword = false;
 
   // Inyección de FormBuilder para facilitar la creación del formulario
   constructor(private fb: FormBuilder, private snackBar: MatSnackBar) {
@@ -88,4 +92,12 @@ export class RegisterComponent {
   onStrengthChange(strength: 'Débil' | 'Media' | 'Fuerte') {
     this.passwordStrength = strength;
   }
+
+   togglePasswordVisibility() {
+     this.showPassword = !this.showPassword;
+   }
+
+   toggleConfirmPasswordVisibility() {
+     this.showConfirmPassword = !this.showConfirmPassword;
+   }
 }
