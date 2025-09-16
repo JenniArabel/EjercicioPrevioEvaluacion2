@@ -1,7 +1,7 @@
-<div class="min-vh-100 d-flex justify-content-center align-items-center bg-light">
+<div class="min-vh-100 d-flex justify-content-center align-items-center bg-dark">
   <!-- Si no estamos en la ruta de registro, mostramos el botón -->
   @if (!isRegisterRoute) {
-  <div class="text-center p-4 bg-white rounded shadow">
+  <div class="">
     <button (click)="navigateToRegister()" class="btn btn-primary px-4 py-2"> Registrarse </button>
   </div>
   }
@@ -15,13 +15,8 @@ min-vh-100: altura mínima del 100% de la ventana
 d-flex: display flex
 justify-content-center: centra horizontalmente
 align-items-center: centra verticalmente
-bg-light: fondo claro
+bg-dark: fondo oscuro
 
-text-center: centra el texto
-p-4: padding de 4 unidades
-bg-white: fondo blanco
-rounded: bordes redondeados
-shadow: sombra para dar efecto de elevación
 
 btn btn-primary: estilos para el botón primario
 px-4: padding horizontal de 4 unidades
