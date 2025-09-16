@@ -1,10 +1,20 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'register',
   standalone: true,
-  imports: [ReactiveFormsModule], // Importacion de ReactiveFormsModule para usar formularios reactivos
+  imports: [
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    MatSnackBarModule
+  ], // Importacion de ReactiveFormsModule y Angular Material
   templateUrl: './register.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -12,7 +22,7 @@ export class RegisterComponent {
   registerForm: FormGroup; // Declaración de la variable del formulario
 
   // Inyección de FormBuilder para facilitar la creación del formulario
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private snackBar: MatSnackBar) {
     this.registerForm = this.fb.group(
       {
         // Campos del formulario con sus validaciones
@@ -54,10 +64,21 @@ export class RegisterComponent {
   // Manejo del envío del formulario
   onSubmit() {
     // onSubmit es un método que es llamado al hacer click en el botón de enviar
-    if (this.registerForm.valid) {
-      // Verifico que el formulario sea válido
-      console.log(this.registerForm.value); // Imprimo los valores del formulario en la consola
+    if (this.registerForm.valid) { // Si el formulario es válido
+
       // Aquí irá la lógica de registro
+
+      // Un snackbar es una notificación que aparece en la parte inferior de la pantalla
+      this.snackBar.open('Registro exitoso', 'Cerrar', { // Mensaje del snackbar, 'Cerrar' es el texto del botón para cerrar el snackbar
+        duration: 2000, // 2 segundos
+        panelClass: ['snackbar-success'] // Clase CSS para el estilo del snackbar
+      });
+      console.log(this.registerForm.value);
+    } else {
+      this.snackBar.open('Por favor, corrige los errores del formulario', 'Cerrar', {
+        duration: 3000,
+        panelClass: ['snackbar-error']
+      });
     }
   }
 }
