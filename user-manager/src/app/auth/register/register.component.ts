@@ -24,7 +24,7 @@ import { MatIconModule } from '@angular/material/icon';
 })
 export class RegisterComponent {
   registerForm: FormGroup; // Declaración de la variable del formulario
-  passwordStrength: 'Débil' | 'Media' | 'Fuerte' = 'Débil';
+  passwordStrength?: 'Débil' | 'Media' | 'Fuerte';
   showPassword = false;
   showConfirmPassword = false;
 
@@ -89,7 +89,7 @@ export class RegisterComponent {
     }
   }
 
-  onStrengthChange(strength: 'Débil' | 'Media' | 'Fuerte') {
+  onStrengthChange(strength: 'Débil' | 'Media' | 'Fuerte' | undefined) {
     this.passwordStrength = strength;
   }
 

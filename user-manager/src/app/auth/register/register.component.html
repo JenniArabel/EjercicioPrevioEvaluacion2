@@ -70,7 +70,7 @@
       } @if (registerForm.get('password')?.errors?.['minlength']) {
       <mat-error>La contraseña debe tener al menos 6 caracteres</mat-error>
       }
-      @if (registerForm.get('password')?.touched) {
+      @if (registerForm.get('password')?.touched && passwordStrength) {
         <div class="password-strength mt-1">
           Fortaleza: <span
             [class.text-danger]="passwordStrength === 'Débil'"
@@ -82,7 +82,7 @@
     </mat-form-field>
 
     <mat-form-field class="full-width">
-      <mat-label>Confirmar Contraseña</mat-label>
+      <mat-label>Confirmar contraseña</mat-label>
 
       <input matInput
         [type]="showConfirmPassword ? 'text' : 'password'"
