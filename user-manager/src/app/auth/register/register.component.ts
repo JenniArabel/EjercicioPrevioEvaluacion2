@@ -4,6 +4,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { PasswordStrengthDirective } from './password-strength.directive';
 
 @Component({
   selector: 'register',
@@ -13,13 +14,15 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    PasswordStrengthDirective
   ], // Importacion de ReactiveFormsModule y Angular Material
   templateUrl: './register.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RegisterComponent {
   registerForm: FormGroup; // Declaración de la variable del formulario
+  passwordStrength: 'Débil' | 'Media' | 'Fuerte' = 'Débil';
 
   // Inyección de FormBuilder para facilitar la creación del formulario
   constructor(private fb: FormBuilder, private snackBar: MatSnackBar) {
@@ -80,5 +83,9 @@ export class RegisterComponent {
         panelClass: ['snackbar-error']
       });
     }
+  }
+
+  onStrengthChange(strength: 'Débil' | 'Media' | 'Fuerte') {
+    this.passwordStrength = strength;
   }
 }
