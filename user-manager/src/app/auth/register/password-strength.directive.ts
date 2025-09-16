@@ -9,7 +9,11 @@ export class PasswordStrengthDirective {
   @HostListener('input', ['$event'])
   onInput(event: Event) {
     const value = (event.target as HTMLInputElement).value;
-    this.strengthChange.emit(this.getStrength(value));
+    if (value.length > 0) {
+      this.strengthChange.emit(this.getStrength(value));
+    } else {
+      this.strengthChange.emit(undefined);
+    }
   }
 
   getStrength(password: string): 'Débil' | 'Media' | 'Fuerte' {
