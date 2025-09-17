@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -24,8 +24,8 @@ import { Router } from '@angular/router';
   templateUrl: './register.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class RegisterComponent {
-  registerForm: FormGroup; // Declaración de la variable del formulario
+export class RegisterComponent implements OnInit, OnDestroy {
+  registerForm: FormGroup = new FormGroup({}); // Declaración de la variable del formulario
   passwordStrength?: 'Débil' | 'Media' | 'Fuerte';
   showPassword = false;
   showConfirmPassword = false;
@@ -36,7 +36,11 @@ export class RegisterComponent {
     private snackBar: MatSnackBar,
     private authService: AuthService,
     private router: Router
-  ) {
+  ) {}
+
+  // Hook ngOnInit para inicializar el formulario
+  ngOnInit() {
+    // Inicializar el formulario al crear el componente
     this.registerForm = this.fb.group(
       {
         // Campos del formulario con sus validaciones
@@ -50,6 +54,11 @@ export class RegisterComponent {
         validators: this.passwordMatchValidator, // Llamado al validador personalizado para verificar que las contraseñas coincidan
       }
     );
+  }
+
+  ngOnDestroy() {
+    // Limpiar el formulario o cancelar suscripciones si fuera necesario
+    this.registerForm.reset();
   }
 
   /* Condiciones de un email válido:
@@ -95,6 +104,9 @@ export class RegisterComponent {
       });
 
       console.log('Token guardado:', fakeToken);
+
+      // Limpiar el formulario antes de navegar (efecto visual si el usuario permanece en la página)
+      this.registerForm.reset();
 
       // Redirigir a home después de registro exitoso
       this.router.navigate(['/home']);
