@@ -6,6 +6,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { PasswordStrengthDirective } from '../directives/password-strength.directive';
 import { MatIconModule } from '@angular/material/icon';
+import { AuthService } from '../../services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'register',
@@ -29,7 +31,12 @@ export class RegisterComponent {
   showConfirmPassword = false;
 
   // Inyección de FormBuilder para facilitar la creación del formulario
-  constructor(private fb: FormBuilder, private snackBar: MatSnackBar) {
+  constructor(
+    private fb: FormBuilder,
+    private snackBar: MatSnackBar,
+    private authService: AuthService,
+    private router: Router
+  ) {
     this.registerForm = this.fb.group(
       {
         // Campos del formulario con sus validaciones
@@ -72,17 +79,18 @@ export class RegisterComponent {
   onSubmit() {
     // onSubmit es un método que es llamado al hacer click en el botón de enviar
     if (this.registerForm.valid) {
-      // Si el formulario es válido
-
-      // Aquí irá la lógica de registro
-
-      // Un snackbar es una notificación que aparece en la parte inferior de la pantalla
+      // Simular generación de un token (en una app real, esto lo da el backend)
+      const fakeToken = btoa(this.registerForm.value.email + ':' + Date.now());
+      this.authService.login(fakeToken);
+      // Guardar el nombre del usuario en localStorage para mostrarlo en el home
+      localStorage.setItem('userName', this.registerForm.value.name);
       this.snackBar.open('Registro exitoso', 'Cerrar', {
-        // Mensaje del snackbar, 'Cerrar' es el texto del botón para cerrar el snackbar
-        duration: 2000, // 2 segundos
-        panelClass: ['snackbar-success'], // Clase CSS para el estilo del snackbar
+        duration: 2000,
+        panelClass: ['snackbar-success'],
       });
-      console.log(this.registerForm.value);
+      console.log('Token guardado:', fakeToken);
+      // Redirigir a home después de registro exitoso
+      this.router.navigate(['/home']);
     } else {
       this.snackBar.open('Por favor, corrige los errores del formulario', 'Cerrar', {
         duration: 3000,
