@@ -1,16 +1,14 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
 
-let loggedIn = false; // Simulacion de si el usuario está logueado o no
-/* Cuando quiera simular que el usuario está logueado,
- cambiar el valor de loggedIn a true */
-
+// Permite el acceso solo si el usuario NO está autenticado
 export const noAuthGuard: CanActivateFn = (route, state) => {
-  // const authService = inject(AuthService);
-  const router = inject(Router); // Inyecto el router para redirigir si es necesario
+  const authService = inject(AuthService);
+  const router = inject(Router);
 
-  if (loggedIn) {
-    router.navigate(['/']); // Aquí debería redirigir a la HOME si el usuario está logueado
+  if (authService.isLoggedIn()) {
+    router.navigate(['/']); // Redirige a la HOME si el usuario está logueado
     return false;
   }
 
