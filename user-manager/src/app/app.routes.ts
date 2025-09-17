@@ -1,12 +1,19 @@
 import { Routes } from '@angular/router';
 import { LoginComponent } from './pages/login/login.component';
+
 import { noAuthGuard } from './auth/guards/no-auth-guard';
+import { HomePageComponent } from './pages/home-page/home-page.component';
 
 export const routes: Routes = [
   {
     path: '',
-    redirectTo: 'login',
+    redirectTo: 'home',
     pathMatch: 'full',
+  },
+  {
+    path: 'home',
+    component: HomePageComponent,
+    // Aquí podrías agregar un guard para solo autenticados si lo deseas
   },
   {
     path: 'login',
