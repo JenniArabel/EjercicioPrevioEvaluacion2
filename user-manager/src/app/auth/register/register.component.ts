@@ -17,7 +17,7 @@ import { MatIconModule } from '@angular/material/icon';
     MatButtonModule,
     MatSnackBarModule,
     PasswordStrengthDirective,
-    MatIconModule
+    MatIconModule,
   ], // Importacion de ReactiveFormsModule y Angular Material
   templateUrl: './register.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -71,33 +71,35 @@ export class RegisterComponent {
   // Manejo del envío del formulario
   onSubmit() {
     // onSubmit es un método que es llamado al hacer click en el botón de enviar
-    if (this.registerForm.valid) { // Si el formulario es válido
+    if (this.registerForm.valid) {
+      // Si el formulario es válido
 
       // Aquí irá la lógica de registro
 
       // Un snackbar es una notificación que aparece en la parte inferior de la pantalla
-      this.snackBar.open('Registro exitoso', 'Cerrar', { // Mensaje del snackbar, 'Cerrar' es el texto del botón para cerrar el snackbar
+      this.snackBar.open('Registro exitoso', 'Cerrar', {
+        // Mensaje del snackbar, 'Cerrar' es el texto del botón para cerrar el snackbar
         duration: 2000, // 2 segundos
-        panelClass: ['snackbar-success'] // Clase CSS para el estilo del snackbar
+        panelClass: ['snackbar-success'], // Clase CSS para el estilo del snackbar
       });
       console.log(this.registerForm.value);
     } else {
       this.snackBar.open('Por favor, corrige los errores del formulario', 'Cerrar', {
         duration: 3000,
-        panelClass: ['snackbar-error']
+        panelClass: ['snackbar-error'],
       });
     }
   }
 
+  // Método para actualizar la fortaleza de la contraseña
   onStrengthChange(strength: 'Débil' | 'Media' | 'Fuerte' | undefined) {
     this.passwordStrength = strength;
   }
-
-   togglePasswordVisibility() {
-     this.showPassword = !this.showPassword;
-   }
-
-   toggleConfirmPasswordVisibility() {
-     this.showConfirmPassword = !this.showConfirmPassword;
-   }
+  // Métodos para alternar la visibilidad de las contraseñas
+  togglePasswordVisibility() {
+    this.showPassword = !this.showPassword;
+  }
+  toggleConfirmPasswordVisibility() {
+    this.showConfirmPassword = !this.showConfirmPassword;
+  }
 }
