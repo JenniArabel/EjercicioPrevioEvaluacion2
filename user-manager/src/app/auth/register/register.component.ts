@@ -81,17 +81,26 @@ export class RegisterComponent {
     if (this.registerForm.valid) {
       // Simular generación de un token (en una app real, esto lo da el backend)
       const fakeToken = btoa(this.registerForm.value.email + ':' + Date.now());
+
+      // Guardar el token usando el AuthService
       this.authService.login(fakeToken);
+
       // Guardar el nombre del usuario en localStorage para mostrarlo en el home
       localStorage.setItem('userName', this.registerForm.value.name);
+
+      // Mostrar notificación de éxito
       this.snackBar.open('Registro exitoso', 'Cerrar', {
         duration: 2000,
         panelClass: ['snackbar-success'],
       });
+
       console.log('Token guardado:', fakeToken);
+
       // Redirigir a home después de registro exitoso
       this.router.navigate(['/home']);
+
     } else {
+      // Mostrar notificación de error si el formulario no es válido
       this.snackBar.open('Por favor, corrige los errores del formulario', 'Cerrar', {
         duration: 3000,
         panelClass: ['snackbar-error'],
