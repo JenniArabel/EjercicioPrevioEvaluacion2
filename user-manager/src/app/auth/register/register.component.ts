@@ -4,7 +4,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { PasswordStrengthDirective } from './password-strength.directive';
+import { PasswordStrengthDirective } from '../../directives/password-strength.directive';
 import { MatIconModule } from '@angular/material/icon';
 
 @Component({
