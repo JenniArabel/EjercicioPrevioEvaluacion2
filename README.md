@@ -1,4 +1,4 @@
-# Ejericio Previo Evaluación 2
+# Ejercicio Previo Evaluación 2
 
 Este proyecto es para seguir aprendiendo Angular, respecto:
 - Manejo de formularios reactivos
