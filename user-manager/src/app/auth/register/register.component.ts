@@ -20,17 +20,16 @@ import { Router } from '@angular/router';
     MatSnackBarModule,
     PasswordStrengthDirective,
     MatIconModule,
-  ], // Importacion de ReactiveFormsModule y Angular Material
+  ],
   templateUrl: './register.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RegisterComponent implements OnInit, OnDestroy {
-  registerForm: FormGroup = new FormGroup({}); // Declaración de la variable del formulario
+  registerForm: FormGroup = new FormGroup({});
   passwordStrength?: 'Débil' | 'Media' | 'Fuerte';
   showPassword = false;
   showConfirmPassword = false;
 
-  // Inyección de FormBuilder para facilitar la creación del formulario
   constructor(
     private fb: FormBuilder,
     private snackBar: MatSnackBar,
@@ -38,20 +37,16 @@ export class RegisterComponent implements OnInit, OnDestroy {
     private router: Router
   ) {}
 
-  // Hook ngOnInit para inicializar el formulario
   ngOnInit() {
-    // Inicializar el formulario al crear el componente
     this.registerForm = this.fb.group(
       {
-        // Campos del formulario con sus validaciones
-        // Cada campo es un array donde el primer elemento es el valor inicial y el segundo son los validadores
-        name: ['', [Validators.required, Validators.minLength(2)]], // Nombre es obligatorio y debe tener al menos 2 caracteres
-        email: ['', [Validators.required, Validators.email]], // Email es obligatorio y debe ser un email válido
-        password: ['', [Validators.required, Validators.minLength(6)]], // Contraseña es obligatoria y debe tener al menos 6 caracteres
-        confirmPassword: ['', [Validators.required]], // Confirmar contraseña es obligatorio
+        name: ['', [Validators.required, Validators.minLength(2)]],
+        email: ['', [Validators.required, Validators.email]],
+        password: ['', [Validators.required, Validators.minLength(6)]],
+        confirmPassword: ['', [Validators.required]],
       },
       {
-        validators: this.passwordMatchValidator, // Llamado al validador personalizado para verificar que las contraseñas coincidan
+        validators: this.passwordMatchValidator,
       }
     );
   }
@@ -61,55 +56,30 @@ export class RegisterComponent implements OnInit, OnDestroy {
     this.registerForm.reset();
   }
 
-  /* Condiciones de un email válido:
-  Angular internamente verifica que:
-  - contenga "@"
-  - que haya caracteres antes y después del @
-  - que tenga un dominio válido despues del @
-
-  Un dominio es válido cuando contiene:
-  - al menos un punto separando el nombre de dominio y la extensión
-  - la extensión después del punto debe tener al menos 2 caracteres
-  - no puede comenzar ni terminar con guión (-)
-  - no puede tener dos puntos seguidos (..)
-  - solo puede contener letras, números, guiones (-), puntos (.) y guion bajo (_)
-
-  */
 
   // Validador personalizado para verificar que las contraseñas coincidan
   passwordMatchValidator(g: FormGroup) {
-    return g.get('password')?.value === g.get('confirmPassword')?.value // Comparo los valores de ambos campos
+    return g.get('password')?.value === g.get('confirmPassword')?.value
       ? null
-      : { mismatch: true }; // Si coinciden, no hay error (null). Si no coinciden, retorno un objeto con el error
-    // mismatch es el nombre del error que puedo usar en el template para mostrar un mensaje
+      : { mismatch: true };
   }
 
-  // Manejo del envío del formulario
   onSubmit() {
-    // onSubmit es un método que es llamado al hacer click en el botón de enviar
+
     if (this.registerForm.valid) {
       // Simular generación de un token (en una app real, esto lo da el backend)
       const fakeToken = btoa(this.registerForm.value.email + ':' + Date.now());
+      this.authService.login(fakeToken); // Guardar el token usando el AuthService
+      localStorage.setItem('userName', this.registerForm.value.name); // Guardar el nombre del usuario en localStorage para mostrarlo en el home
 
-      // Guardar el token usando el AuthService
-      this.authService.login(fakeToken);
-
-      // Guardar el nombre del usuario en localStorage para mostrarlo en el home
-      localStorage.setItem('userName', this.registerForm.value.name);
-
-      // Mostrar notificación de éxito
       this.snackBar.open('Registro exitoso', 'Cerrar', {
         duration: 2000,
         panelClass: ['snackbar-success'],
       });
 
       console.log('Token guardado:', fakeToken);
-
-      // Limpiar el formulario antes de navegar (efecto visual si el usuario permanece en la página)
-      this.registerForm.reset();
-
-      // Redirigir a home después de registro exitoso
-      this.router.navigate(['/home']);
+      this.registerForm.reset(); // Limpiar el formulario antes de navegar (efecto visual si el usuario permanece en la página)
+      this.router.navigate(['/home']); // Redirigir a home después de registro exitoso
 
     } else {
       // Mostrar notificación de error si el formulario no es válido
@@ -119,7 +89,6 @@ export class RegisterComponent implements OnInit, OnDestroy {
       });
     }
   }
-
   // Método para actualizar la fortaleza de la contraseña
   onStrengthChange(strength: 'Débil' | 'Media' | 'Fuerte' | undefined) {
     this.passwordStrength = strength;

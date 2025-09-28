@@ -1,34 +1,12 @@
 <div class="register-container text-center">
   <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class=" d-flex flex-column gap-3">
-    <!-- [formGroup]
-     sirve para:
-     - agrupar los controles del formulario
-     - y gestionar su estado y validación de manera más sencilla.
-     (ngSubmit) es un evento que se dispara al enviar el formulario,
-     llamando al método onSubmit() definido en el componente.
-     -->
     <h2>Registrarse</h2>
 
-    <!-- Formulario de registro de usuario
-    - mat-form-field es un contenedor para los elementos de formulario de Angular Material,
-    proporcionando estilos y funcionalidades adicionales
-    - appearance="outline": borde alrededor del campo de entrada
-
-    - mat-label es la etiqueta que describe el campo de entrada
-    - matInput es una directiva que aplica estilos y comportamientos específicos de Angular Material a los campos de entrada
-    - formControlName vincula el campo de entrada con un control específico en el formulario reactivo definido en el componente TypeScript
-    - Los mensajes de error se muestran condicionalmente basándose en el estado de validación del formulario
-    -->
     <mat-form-field class="full-width ">
       <mat-label> Nombre completo </mat-label>
 
       <input matInput type="text" formControlName="name" />
 
-      <!-- Verificaciones:
-        - required significa que el campo es obligatorio
-        - touched indica si el usuario se posicionó en el campo y luego salió de él sin escribir, muestra mensaje de error.
-        - minlength verifica que el nombre tenga al menos 2 caracteres
-      -->
       @if (registerForm.get('name')?.errors?.['required'] && registerForm.get('name')?.touched) {
       <mat-error> El nombre es requerido </mat-error>
       } @if (registerForm.get('name')?.errors?.['minlength']) {
@@ -41,7 +19,6 @@
 
       <input matInput type="email" formControlName="email" />
 
-      <!-- email es para verificar que cumpla el formato de email (ver en el componente) -->
       @if (registerForm.get('email')?.errors?.['required'] && registerForm.get('email')?.touched) {
       <mat-error>El email es requerido</mat-error>
       } @if (registerForm.get('email')?.errors?.['email']) {
@@ -63,11 +40,6 @@
         <mat-icon>{{ showPassword ? 'visibility_off' : 'visibility' }}</mat-icon>
       </button>
 
-      <!-- Verificaciones de contraseña:
-        - required: campo obligatorio
-        - minlength: mínimo 6 caracteres
-        - [class.] son clases condicionales
-      -->
       @if (registerForm.get('password')?.errors?.['required'] &&
       registerForm.get('password')?.touched) {
       <mat-error>La contraseña es requerida</mat-error>
@@ -97,11 +69,6 @@
         <mat-icon>{{ showConfirmPassword ? 'visibility_off' : 'visibility' }}</mat-icon>
       </button>
 
-      <!-- mismatch es para verificar que las contraseñas coincidan
-        registerForm.errors accede a los errores a nivel de formulario completo
-        El operador ?. (encadenamiento opcional) se usa para acceder de forma segura a la propiedad 'mismatch'
-        El mensaje "Las contraseñas no coinciden" se muestra cuando la validación falla
-      -->
       @if (registerForm.get('confirmPassword')?.errors?.['required'] &&
       registerForm.get('confirmPassword')?.touched) {
       <mat-error>La confirmación de contraseña es requerida</mat-error>

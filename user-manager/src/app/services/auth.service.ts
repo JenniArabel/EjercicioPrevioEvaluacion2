@@ -2,12 +2,11 @@ import { Injectable } from '@angular/core';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  //TOKEN_KEY: Es la clave bajo la cual se guarda el token
-  // de autenticación en Local Storage.
+  //TOKEN_KEY: Es la clave bajo la cual se guarda el token de autenticación en Local Storage.
   private readonly TOKEN_KEY = 'authToken';
 
   // login(token: string): Guarda el token recibido en Local Storage,
-  // iniciando la sesión.
+  // Iniciando la sesión.
   login(token: string) {
     localStorage.setItem(this.TOKEN_KEY, token);
   }
