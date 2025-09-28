@@ -1,0 +1,84 @@
+<div class="register-container text-center">
+  <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class=" d-flex flex-column gap-3">
+    <h2>Registrarse</h2>
+
+    <mat-form-field class="full-width ">
+      <mat-label> Nombre completo </mat-label>
+
+      <input matInput type="text" formControlName="name" />
+
+      @if (registerForm.get('name')?.errors?.['required'] && registerForm.get('name')?.touched) {
+      <mat-error> El nombre es requerido </mat-error>
+      } @if (registerForm.get('name')?.errors?.['minlength']) {
+      <mat-error> El nombre debe tener al menos 2 caracteres </mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field  class="full-width">
+      <mat-label> Email </mat-label>
+
+      <input matInput type="email" formControlName="email" />
+
+      @if (registerForm.get('email')?.errors?.['required'] && registerForm.get('email')?.touched) {
+      <mat-error>El email es requerido</mat-error>
+      } @if (registerForm.get('email')?.errors?.['email']) {
+      <mat-error>Ingrese un email válido</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field  class="full-width">
+      <mat-label> Contraseña </mat-label>
+
+      <input matInput
+        [type]="showPassword ? 'text' : 'password'"
+        formControlName="password"
+        passwordStrength
+        (strengthChange)="onStrengthChange($event)"
+      />
+
+      <button mat-icon-button matSuffix type="button" (click)="togglePasswordVisibility()" [attr.aria-label]="showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'">
+        <mat-icon>{{ showPassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+      </button>
+
+      @if (registerForm.get('password')?.errors?.['required'] &&
+      registerForm.get('password')?.touched) {
+      <mat-error>La contraseña es requerida</mat-error>
+      } @if (registerForm.get('password')?.errors?.['minlength']) {
+      <mat-error>La contraseña debe tener al menos 6 caracteres</mat-error>
+      }
+      @if (registerForm.get('password')?.touched && passwordStrength) {
+        <div class="password-strength mt-1">
+          Fortaleza: <span
+            [class.text-danger]="passwordStrength === 'Débil'"
+            [class.text-warning]="passwordStrength === 'Media'"
+            [class.text-success]="passwordStrength === 'Fuerte'"
+          >{{ passwordStrength }}</span>
+        </div>
+      }
+    </mat-form-field>
+
+    <mat-form-field class="full-width">
+      <mat-label>Confirmar contraseña</mat-label>
+
+      <input matInput
+        [type]="showConfirmPassword ? 'text' : 'password'"
+        formControlName="confirmPassword"
+      />
+
+      <button mat-icon-button matSuffix type="button" (click)="toggleConfirmPasswordVisibility()" [attr.aria-label]="showConfirmPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'">
+        <mat-icon>{{ showConfirmPassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+      </button>
+
+      @if (registerForm.get('confirmPassword')?.errors?.['required'] &&
+      registerForm.get('confirmPassword')?.touched) {
+      <mat-error>La confirmación de contraseña es requerida</mat-error>
+      } @if (registerForm.errors?.['mismatch']) {
+      <mat-error>Las contraseñas no coinciden</mat-error>
+      }
+    </mat-form-field>
+
+    <button mat-raised-button color="primary" type="submit">
+      Registrar
+    </button>
+  </form>
+</div>
